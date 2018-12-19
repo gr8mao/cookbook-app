@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Recipe
@@ -25,13 +26,16 @@ class Recipe
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(max=255, min=2)
      */
     private $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
@@ -39,8 +43,18 @@ class Recipe
      * @var int
      *
      * @ORM\Column(name="estimated_time", type="smallint")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Range(min=1, max=300)
      */
     private $estimatedTime;
+
+    /**
+     * @var User $user
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="recipes")
+     */
+    private $user;
 
 
     /**
@@ -123,6 +137,22 @@ class Recipe
     public function getEstimatedTime()
     {
         return $this->estimatedTime;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
     }
 }
 
