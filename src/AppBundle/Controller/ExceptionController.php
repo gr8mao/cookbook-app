@@ -37,7 +37,7 @@ class ExceptionController extends Controller
             return $this->getView($exception->getStatusCode(), json_encode($exception->getMessage()), true);
         }
 
-//        return $this->getView(null, 'Неожиданная ошибка');
+        return $this->getView(null, $exception->getMessage());
     }
 
     /**

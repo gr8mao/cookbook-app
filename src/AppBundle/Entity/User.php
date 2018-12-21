@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use mysql_xdevapi\Collection;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -249,7 +250,7 @@ class User
     /**
      * @param ArrayCollection $recipes
      */
-    public function setRecipes(ArrayCollection $recipes): void
+    public function setRecipes(ArrayCollection $recipes)
     {
         $this->recipes = $recipes;
     }

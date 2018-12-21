@@ -2,7 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use mysql_xdevapi\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -56,6 +58,28 @@ class Recipe
      */
     private $user;
 
+    /**
+     * @var ArrayCollection $steps
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\RecipeStep", mappedBy="recipe")
+     */
+    private $steps;
+
+    /**
+     * @var ArrayCollection $ingredients
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ingredient", mappedBy="recipe")
+     */
+    private $ingredients;
+
+    /**
+     * Recipe constructor.
+     */
+    public function __construct()
+    {
+        $this->steps = new ArrayCollection();
+        $this->ingredients = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -150,9 +174,41 @@ class Recipe
     /**
      * @param User $user
      */
-    public function setUser(User $user): void
+    public function setUser(User $user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSteps(): \Doctrine\Common\Collections\Collection
+    {
+        return $this->steps;
+    }
+
+    /**
+     * @param ArrayCollection $steps
+     */
+    public function setSteps(ArrayCollection $steps)
+    {
+        $this->steps = $steps;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getIngredients(): \Doctrine\Common\Collections\Collection
+    {
+        return $this->ingredients;
+    }
+
+    /**
+     * @param ArrayCollection $ingredients
+     */
+    public function setIngredients(ArrayCollection $ingredients)
+    {
+        $this->ingredients = $ingredients;
     }
 }
 

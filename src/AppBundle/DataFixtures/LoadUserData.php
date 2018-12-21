@@ -8,12 +8,12 @@
 
 namespace AppBundle\DataFixtures;
 
-
 use AppBundle\Entity\User;
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class LoadUserData extends Fixture
+class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * @param ObjectManager $manager
@@ -27,10 +27,20 @@ class LoadUserData extends Fixture
         $user->setLastName("Фамилькин");
         $user->setAge(25);
         $user->setBio('Это био!');
-        $user->setPasswordHash('wer34');
+        $user->setPasswordHash('pass_1234');
+
+        $this->addReference('user', $user);
 
         $manager->persist($user);
         $manager->flush();
+    }
+
+    /**
+     * @return int
+     */
+    public function getOrder()
+    {
+        return 2;
     }
 
 }
