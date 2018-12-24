@@ -4,12 +4,15 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * RecipeStep
  *
  * @ORM\Table(name="recipe_step")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\RecipeStepRepository")
+ *
+ * @Serializer\ExclusionPolicy("ALL")
  */
 class RecipeStep
 {
@@ -19,6 +22,9 @@ class RecipeStep
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\Groups({"Default", "Deserialize"})
+     * @Serializer\Expose()
      */
     private $id;
 
@@ -26,6 +32,10 @@ class RecipeStep
      * @var string
      *
      * @ORM\Column(name="Title", type="string", length=255)
+     *
+     * @Serializer\Groups({"Default", "Deserialize"})
+     * @Serializer\Expose()
+     *
      * @Assert\NotBlank()
      */
     private $title;
@@ -34,6 +44,9 @@ class RecipeStep
      * @var string
      *
      * @ORM\Column(name="Description", type="string", length=255)
+     *
+     * @Serializer\Groups({"Default", "Deserialize"})
+     * @Serializer\Expose()
      */
     private $description;
 
@@ -41,6 +54,10 @@ class RecipeStep
      * @var int
      *
      * @ORM\Column(name="EstimatedTime", type="smallint")
+     *
+     * @Serializer\Groups({"Default", "Deserialize"})
+     * @Serializer\Expose()
+     *
      * @Assert\GreaterThan(0)
      */
     private $estimatedTime;

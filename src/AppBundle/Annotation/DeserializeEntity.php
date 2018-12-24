@@ -18,28 +18,28 @@ use Doctrine\Common\Annotations\Annotation\Target;
  * @Annotation
  * @Target({"PROPERTY"})
  */
-class DeserializeEntity
+final class DeserializeEntity
 {
     /**
-     * @var
+     * @var string
      * @Required()
      */
     public $type;
 
     /**
-     * @var
+     * @var string $idField идентификатор класса, который будет десериализироваться
      * @Required()
      */
     public $idField;
 
     /**
-     * @var
+     * @var string $setter
      * @Required()
      */
     public $setter;
 
     /**
-     * @var
+     * @var string $idGetter
      * @Required()
      */
     public $idGetter;

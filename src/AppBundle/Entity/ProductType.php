@@ -5,12 +5,15 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * ProductType
  *
  * @ORM\Table(name="product_type")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductTypeRepository")
+ * @Serializer\ExclusionPolicy("ALL")
  */
 class ProductType
 {
@@ -20,6 +23,9 @@ class ProductType
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\Groups({"Default", "Deserialize"})
+     * @Serializer\Expose()
      */
     private $id;
 
@@ -27,6 +33,10 @@ class ProductType
      * @var string
      *
      * @ORM\Column(name="Name", type="string", length=255, unique=true)
+     *
+     * @Serializer\Groups({"Default", "Deserialize"})
+     * @Serializer\Expose()
+     *
      * @Assert\NotBlank()
      */
     private $name;

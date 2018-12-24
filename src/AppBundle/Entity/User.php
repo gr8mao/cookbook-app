@@ -5,12 +5,15 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * User
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ *
+ * @Serializer\ExclusionPolicy("ALL")
  */
 class User
 {
@@ -20,6 +23,9 @@ class User
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\Groups({"Default", "Deserialize"})
+     * @Serializer\Expose()
      */
     private $id;
 
@@ -38,6 +44,9 @@ class User
      *
      * @ORM\Column(name="FirstName", type="string", length=255)
      *
+     * @Serializer\Groups({"Default", "Deserialize"})
+     * @Serializer\Expose()
+     *
      * @Assert\NotBlank()
      */
     private $firstName;
@@ -46,6 +55,9 @@ class User
      * @var string
      *
      * @ORM\Column(name="LastName", type="string", length=255, nullable=true)
+     *
+     * @Serializer\Groups({"Default", "Deserialize"})
+     * @Serializer\Expose()
      */
     private $lastName;
 
@@ -53,6 +65,9 @@ class User
      * @var int
      *
      * @ORM\Column(name="Age", type="smallint", nullable=true)
+     *
+     * @Serializer\Groups({"Default", "Deserialize"})
+     * @Serializer\Expose()
      */
     private $age;
 
@@ -67,6 +82,9 @@ class User
      * @var string
      *
      * @ORM\Column(name="Bio", type="text", nullable=true)
+     *
+     * @Serializer\Groups({"Default", "Deserialize"})
+     * @Serializer\Expose()
      */
     private $bio;
 
@@ -74,6 +92,9 @@ class User
      * @var ArrayCollection $recipes
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Recipe", mappedBy="user")
+     *
+     * @Serializer\Groups({"Default", "Deserialize"})
+     * @Serializer\Expose()
      */
     private $recipes;
 

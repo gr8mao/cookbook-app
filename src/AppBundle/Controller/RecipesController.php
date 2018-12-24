@@ -98,11 +98,11 @@ class RecipesController extends AbstractController
     /**
      * @Rest\View()
      *
-     * @param Recipe $recipe
+     * @param Recipe|null $recipe
      *
      * @return \Doctrine\Common\Collections\Collection|View
      */
-    public function getRecipeIngredientsAction(Recipe $recipe)
+    public function getRecipeIngredientsAction(?Recipe $recipe)
     {
         if (null === $recipe) {
             return $this->view(null, 404);
@@ -114,15 +114,19 @@ class RecipesController extends AbstractController
     /**
      * @Rest\View(statusCode=201)
      * @Rest\NoRoute()
-     * @ParamConverter("ingredient", converter="fos_rest.request_body")
+     * @ParamConverter("ingredient", converter="fos_rest.request_body", options={"deserializationContext"={"groups"={"Deserialize"}}})
      *
      * @param Recipe $recipe
      * @param Ingredient $ingredient
      *
      * @return Ingredient
      */
-    public function postRecipeIngredientsAction(Recipe $recipe, Ingredient $ingredient)
+    public function postRecipeIngredientsAction(Recipe $recipe, Ingredient $ingredient, ConstraintViolationListInterface $validationErrors)
     {
+        if(count($validationErrors) > 0) {
+            throw new ValidationException($validationErrors);
+        }
+
         $ingredient->setRecipe($recipe);
 
         $em = $this->getDoctrine()->getManager();
@@ -136,5 +140,20 @@ class RecipesController extends AbstractController
         $em->flush();
 
         return $ingredient;
+    }
+
+    /**
+     * @Rest\View()
+     *
+     * @param Recipe $recipe
+     * @return \Doctrine\Common\Collections\Collection|View
+     */
+    public function getRecipeStepsAction(Recipe $recipe)
+    {
+        if (null === $recipe) {
+            return $this->view(null, 404);
+        }
+
+        return $recipe->getSteps();
     }
 }

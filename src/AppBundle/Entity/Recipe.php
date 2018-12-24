@@ -5,12 +5,21 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * Recipe
  *
  * @ORM\Table(name="recipe")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\RecipeRepository")
+ *
+ * @Serializer\ExclusionPolicy("ALL")
+ *
+ * @Hateoas\Relation(
+ *     "user",
+ *     href=@Hateoas\Route("get_user", parameters={"user" = "expr(object.getUser().getId())"})
+ * )
  */
 class Recipe
 {
@@ -20,6 +29,9 @@ class Recipe
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\Groups({"Default", "Deserialize"})
+     * @Serializer\Expose()
      */
     private $id;
 
@@ -27,6 +39,9 @@ class Recipe
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     *
+     * @Serializer\Groups({"Default"})
+     * @Serializer\Expose()
      *
      * @Assert\NotBlank()
      * @Assert\Length(max=255, min=2)
@@ -37,6 +52,9 @@ class Recipe
      * @var string
      *
      * @ORM\Column(name="description", type="text", nullable=true)
+     *
+     * @Serializer\Groups({"Default"})
+     * @Serializer\Expose()
      */
     private $description;
 
@@ -44,6 +62,9 @@ class Recipe
      * @var int
      *
      * @ORM\Column(name="estimated_time", type="smallint")
+     *
+     * @Serializer\Groups({"Default"})
+     * @Serializer\Expose()
      *
      * @Assert\NotBlank()
      * @Assert\Range(min=1, max=300)
@@ -61,6 +82,9 @@ class Recipe
      * @var ArrayCollection $steps
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\RecipeStep", mappedBy="recipe")
+     *
+     * @Serializer\Groups({"Default"})
+     * @Serializer\Expose()
      */
     private $steps;
 
@@ -68,6 +92,9 @@ class Recipe
      * @var ArrayCollection $ingredients
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ingredient", mappedBy="recipe")
+     *
+     * @Serializer\Groups({"Default"})
+     * @Serializer\Expose()
      */
     private $ingredients;
 

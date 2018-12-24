@@ -27,7 +27,7 @@ class ExceptionController extends Controller
      * @param DebugLoggerInterface|null $logger
      * @return View
      */
-    public function showAction(Request $request, $exception, ? DebugLoggerInterface $logger)
+    public function showAction(Request $request, $exception, ?DebugLoggerInterface $logger)
     {
         if($exception instanceof ValidationException) {
             return $this->getView($exception->getStatusCode(), json_encode($exception->getMessage()), true);
@@ -37,7 +37,8 @@ class ExceptionController extends Controller
             return $this->getView($exception->getStatusCode(), json_encode($exception->getMessage()), true);
         }
 
-        return $this->getView(null, $exception->getMessage());
+        /** @var \Exception $exception */
+        return $this->getView(null, $exception->getMessage().' '.$exception->getTrace());
     }
 
     /**

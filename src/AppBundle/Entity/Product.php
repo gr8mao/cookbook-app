@@ -5,12 +5,20 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
 /**
  * Product
  *
  * @ORM\Table(name="product")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductRepository")
+ *
+ * @Serializer\ExclusionPolicy("ALL")
+ *
+ * @Hateoas\Relation(
+ *     "type",
+ *     href=@Hateoas\Route("get_product_type", parameters={"productType" = "expr(object.getType().getId())"})
+ * )
  */
 class Product
 {
@@ -20,6 +28,9 @@ class Product
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\Groups({"Default", "Deserialize"})
+     * @Serializer\Expose()
      */
     private $id;
 
@@ -27,6 +38,10 @@ class Product
      * @var string
      *
      * @ORM\Column(name="Name", type="string", length=255)
+     *
+     * @Serializer\Groups({"Default", "Deserialize"})
+     * @Serializer\Expose()
+     *
      * @Assert\NotBlank()
      */
     private $name;
@@ -35,6 +50,10 @@ class Product
      * @var bool
      *
      * @ORM\Column(name="IsVegan", type="boolean")
+     *
+     * @Serializer\Groups({"Default", "Deserialize"})
+     * @Serializer\Expose()
+     *
      * @Assert\NotBlank()
      */
     private $isVegan;
@@ -43,6 +62,9 @@ class Product
      * @var ProductType
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ProductType", inversedBy="products")
+     *
+     * @Serializer\Groups({"Default", "Deserialize"})
+     * @Serializer\Expose()
      */
     private $type;
 

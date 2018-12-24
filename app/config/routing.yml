@@ -6,7 +6,7 @@ recipes:
     type: rest
     resource: AppBundle\Controller\RecipesController
 
-recipes_post:
+post_recipes:
     path: /recipes
     methods: [POST]
     defaults:
@@ -17,23 +17,42 @@ users:
   type: rest
   resource: AppBundle\Controller\UserController
 
-users_post:
+post_users:
   path: /users
   methods: [POST]
   defaults:
     _controller: AppBundle\Controller\UserController:postUserAction
     _format: json
 
-users_post_recipes:
+post_users_recipes:
   path: /users/{user}/recipes
   methods: [POST]
   defaults:
     _controller: AppBundle\Controller\UserController:postUserRecipesAction
     _format: json
 
-recipes_post_ingredients:
+post_recipes_ingredients:
   path: /recipes/{recipe}/ingredients
   methods: [POST]
   defaults:
     _controller: AppBundle\Controller\RecipesController:postRecipeIngredientsAction
     _format: json
+
+products:
+  type: rest
+  resource: AppBundle\Controller\ProductController
+
+post_pruduct:
+  path: /users/{user}/recipes
+  methods: [POST]
+  defaults:
+    _controller: AppBundle\Controller\UserController:postUserRecipesAction
+    _format: json
+
+product_types:
+  type: rest
+  resource: AppBundle\Controller\ProductTypeController
+
+units:
+  type: rest
+  resource: AppBundle\Controller\UnitController

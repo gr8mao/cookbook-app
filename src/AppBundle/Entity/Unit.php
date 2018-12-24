@@ -3,12 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Unit
  *
  * @ORM\Table(name="unit")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UnitRepository")
+ * @Serializer\ExclusionPolicy("ALL")
  */
 class Unit
 {
@@ -18,6 +20,9 @@ class Unit
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\Groups({"Default", "Deserialize"})
+     * @Serializer\Expose()
      */
     private $id;
 
@@ -25,6 +30,9 @@ class Unit
      * @var string
      *
      * @ORM\Column(name="Name", type="string", length=255, unique=true)
+     *
+     * @Serializer\Groups({"Default", "Deserialize"})
+     * @Serializer\Expose()
      */
     private $name;
 
@@ -32,6 +40,9 @@ class Unit
      * @var string
      *
      * @ORM\Column(name="Short_name", type="string", length=255, unique=false)
+     *
+     * @Serializer\Groups({"Default", "Deserialize"})
+     * @Serializer\Expose()
      */
     private $shortName;
 
