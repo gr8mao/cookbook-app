@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Ingredient;
 use AppBundle\Entity\Recipe;
 use AppBundle\Exception\ValidationException;
 use FOS\RestBundle\Controller\ControllerTrait;
@@ -25,6 +26,7 @@ class RecipesController extends AbstractController
      * @Rest\View()
      *
      * @param void
+     *
      * @return array
      */
     public function getRecipesAction()
@@ -41,6 +43,7 @@ class RecipesController extends AbstractController
      *
      * @param Recipe $recipe
      * @param ConstraintViolationListInterface $validationErrors
+     *
      * @return Recipe $recipe
      */
     public function postRecipeAction(Recipe $recipe, ConstraintViolationListInterface $validationErrors)
@@ -60,6 +63,7 @@ class RecipesController extends AbstractController
      * @Rest\View()
      *
      * @param Recipe|null $recipe
+     *
      * @return View|null
      */
     public function deleteRecipeAction(?Recipe $recipe)
@@ -77,7 +81,9 @@ class RecipesController extends AbstractController
 
     /**
      * @Rest\View()
+     *
      * @param Recipe|null $recipe
+     *
      * @return Recipe|View
      */
     public function getRecipeAction(?Recipe $recipe)
@@ -87,5 +93,48 @@ class RecipesController extends AbstractController
         }
 
         return $recipe;
+    }
+
+    /**
+     * @Rest\View()
+     *
+     * @param Recipe $recipe
+     *
+     * @return \Doctrine\Common\Collections\Collection|View
+     */
+    public function getRecipeIngredientsAction(Recipe $recipe)
+    {
+        if (null === $recipe) {
+            return $this->view(null, 404);
+        }
+
+        return $recipe->getIngredients();
+    }
+
+    /**
+     * @Rest\View(statusCode=201)
+     * @Rest\NoRoute()
+     * @ParamConverter("ingredient", converter="fos_rest.request_body")
+     *
+     * @param Recipe $recipe
+     * @param Ingredient $ingredient
+     *
+     * @return Ingredient
+     */
+    public function postRecipeIngredientsAction(Recipe $recipe, Ingredient $ingredient)
+    {
+        $ingredient->setRecipe($recipe);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($ingredient);
+
+        $recipe->getIngredients()->add($ingredient);
+
+        $em->persist($recipe);
+
+        $em->flush();
+
+        return $ingredient;
     }
 }

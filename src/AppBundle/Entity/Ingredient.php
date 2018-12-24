@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Ingredient
@@ -22,16 +23,18 @@ class Ingredient
     private $id;
 
     /**
-     * @var string
+     * @var Product
      *
-     * @ORM\Column(name="Name", type="string", length=255, unique=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", inversedBy="ingredients")
      */
-    private $name;
+    private $product;
 
     /**
      * @var float
      *
      * @ORM\Column(name="Quantity", type="float")
+     * @Assert\NotBlank()
+     * @Assert\GreaterThan(0)
      */
     private $quantity;
 
@@ -57,30 +60,6 @@ class Ingredient
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Ingredient
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**
@@ -145,6 +124,22 @@ class Ingredient
     public function setRecipe($recipe)
     {
         $this->recipe = $recipe;
+    }
+
+    /**
+     * @return Product
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+     * @param Product $product
+     */
+    public function setProduct(Product $product)
+    {
+        $this->product = $product;
     }
 }
 

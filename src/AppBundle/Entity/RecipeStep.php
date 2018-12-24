@@ -2,8 +2,8 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * RecipeStep
@@ -26,6 +26,7 @@ class RecipeStep
      * @var string
      *
      * @ORM\Column(name="Title", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $title;
 
@@ -40,6 +41,7 @@ class RecipeStep
      * @var int
      *
      * @ORM\Column(name="EstimatedTime", type="smallint")
+     * @Assert\GreaterThan(0)
      */
     private $estimatedTime;
 

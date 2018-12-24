@@ -30,3 +30,10 @@ users_post_recipes:
   defaults:
     _controller: AppBundle\Controller\UserController:postUserRecipesAction
     _format: json
+
+recipes_post_ingredients:
+  path: /recipes/{recipe}/ingredients
+  methods: [POST]
+  defaults:
+    _controller: AppBundle\Controller\RecipesController:postRecipeIngredientsAction
+    _format: json

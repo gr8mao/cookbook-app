@@ -22,11 +22,11 @@ class LoadIngredientsData extends AbstractFixture implements OrderedFixtureInter
     public function load(ObjectManager $manager)
     {
         $ingredients = array(
-            array('Name' => 'Грибы', 'Quantity' => 400, 'Unit' => $this->getReference('гр')),
+            array('Name' => 'Шампиньоны', 'Quantity' => 400, 'Unit' => $this->getReference('гр')),
             array('Name' => 'Курица', 'Quantity' => 1, 'Unit' => $this->getReference('кг')),
             array('Name' => 'Сметана', 'Quantity' => 400, 'Unit' => $this->getReference('гр')),
             array('Name' => 'Лук', 'Quantity' => 1, 'Unit' => $this->getReference('шт')),
-            array('Name' => 'Марковь', 'Quantity' => 400, 'Unit' => $this->getReference('шт')),
+            array('Name' => 'Морковь', 'Quantity' => 400, 'Unit' => $this->getReference('шт')),
             array('Name' => 'Сыр', 'Quantity' => 250, 'Unit' => $this->getReference('гр')),
             array('Name' => 'Соль', 'Quantity' => 5, 'Unit' => $this->getReference('гр')),
             array('Name' => 'Перец', 'Quantity' => 5, 'Unit' => $this->getReference('гр')),
@@ -35,7 +35,7 @@ class LoadIngredientsData extends AbstractFixture implements OrderedFixtureInter
         foreach ($ingredients as $ingredientInfo) {
             $ingredient = new Ingredient();
 
-            $ingredient->setName($ingredientInfo['Name']);
+            $ingredient->setProduct($this->getReference('Product_'.$ingredientInfo['Name']));
             $ingredient->setQuantity($ingredientInfo['Quantity']);
             $ingredient->setUnits($ingredientInfo['Unit']);
             $ingredient->setRecipe($this->getReference('recipe'));
@@ -51,7 +51,7 @@ class LoadIngredientsData extends AbstractFixture implements OrderedFixtureInter
      */
     public function getOrder()
     {
-        return 4;
+        return 6;
     }
 
 }
